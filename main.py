@@ -193,7 +193,7 @@ class FloatingIcon(QWidget):
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating)
-        self.setFixedSize(90, 90)
+        self.setFixedSize(70, 70)
 
         self._drag_pos = None
         self._time_str = ""
@@ -210,10 +210,10 @@ class FloatingIcon(QWidget):
 
         # Position bottom-right corner by default
         screen = QApplication.primaryScreen().availableGeometry()
-        self.move(screen.right() - 110, screen.bottom() - 110)
+        self.move(screen.right() - 85, screen.bottom() - 85)
 
     def _load_logo(self):
-        size = 80
+        size = 64
         base = QPixmap(size, size)
         base.fill(Qt.GlobalColor.transparent)
         painter = QPainter(base)
@@ -225,7 +225,7 @@ class FloatingIcon(QWidget):
         # Spider logo image
         if os.path.exists(LOGO_PATH):
             logo = QPixmap(LOGO_PATH).scaled(
-                60, 60,
+                45, 45,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation
             )
@@ -243,7 +243,7 @@ class FloatingIcon(QWidget):
 
     def _render(self):
         """Compose base logo + optional time overlay."""
-        size = 80
+        size = 64
         px = self._base_pixmap.copy()
         if self._active and self._time_str:
             painter = QPainter(px)
@@ -253,10 +253,10 @@ class FloatingIcon(QWidget):
             painter.setPen(Qt.PenStyle.NoPen)
             painter.drawRoundedRect(4, size - 26, size - 8, 22, 8, 8)
             # Timer text
-            font = QFont("monospace", 12, QFont.Weight.Bold)
+            font = QFont("monospace", 10, QFont.Weight.Bold)
             painter.setFont(font)
             painter.setPen(QPen(QColor("#E62429")))
-            painter.drawText(4, size - 26, size - 8, 22,
+            painter.drawText(4, size - 22, size - 8, 20,
                              Qt.AlignmentFlag.AlignCenter, self._time_str)
             painter.end()
         self._label.setPixmap(px)
@@ -438,11 +438,11 @@ class LockyWidget(QWidget):
 
         # ── Logo ──────────────────────────────────────────────────
         self.logo_container = QLabel()
-        self.logo_container.setFixedSize(110, 110)
+        self.logo_container.setFixedSize(90, 90)
         self.logo_container.setAlignment(Qt.AlignmentFlag.AlignCenter)
         if os.path.exists(LOGO_PATH):
             pixmap = QPixmap(LOGO_PATH).scaled(
-                100, 100,
+                80, 80,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation
             )
