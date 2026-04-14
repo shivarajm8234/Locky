@@ -269,20 +269,24 @@ class FloatingIcon(QWidget):
     # ── Drag support ──────────────────────────────────────────────
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
+            self._drag_start_pos = event.globalPosition().toPoint()
             self._drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            event.accept()
 
     def mouseMoveEvent(self, event):
         if self._drag_pos is not None and event.buttons() & Qt.MouseButton.LeftButton:
             self.move(event.globalPosition().toPoint() - self._drag_pos)
+            event.accept()
 
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-            # Only fire click if we barely moved (not a drag)
-            if self._drag_pos is not None:
-                delta = event.globalPosition().toPoint() - (self.frameGeometry().topLeft() + self._drag_pos)
-                if abs(delta.x()) < 5 and abs(delta.y()) < 5:
+            if hasattr(self, "_drag_start_pos"):
+                # If we moved less than 10 pixels, consider it a click
+                dist = (event.globalPosition().toPoint() - self._drag_start_pos).manhattanLength()
+                if dist < 10:
                     self.clicked.emit()
             self._drag_pos = None
+            event.accept()
 
     def enterEvent(self, event):
         self.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -575,16 +579,18 @@ class LockyWidget(QWidget):
     # ── Drag ──────────────────────────────────────────────────────
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-            self.old_pos = event.globalPosition().toPoint()
+            self._drag_offset = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            event.accept()
 
     def mouseMoveEvent(self, event):
-        if self.old_pos is not None:
-            delta = event.globalPosition().toPoint() - self.old_pos
-            self.move(self.x() + delta.x(), self.y() + delta.y())
-            self.old_pos = event.globalPosition().toPoint()
+        if hasattr(self, '_drag_offset') and self._drag_offset is not None:
+            if event.buttons() & Qt.MouseButton.LeftButton:
+                self.move(event.globalPosition().toPoint() - self._drag_offset)
+                event.accept()
 
     def mouseReleaseEvent(self, event):
-        self.old_pos = None
+        self._drag_offset = None
+        event.accept()
 
     # ── Floating icon ─────────────────────────────────────────────
     def _minimize_to_icon(self):
