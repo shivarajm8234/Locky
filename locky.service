@@ -1,0 +1,17 @@
+[Unit]
+Description=Locky Focus Widget Service
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/satoru/Desktop/Locky/start.sh
+Restart=always
+RestartSec=10
+Environment=DISPLAY=:0
+Environment=PYTHONUNBUFFERED=1
+# Ensure we have the right directory
+WorkingDirectory=/home/satoru/Desktop/Locky
+
+[Install]
+WantedBy=graphical-session.target

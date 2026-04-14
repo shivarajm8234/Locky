@@ -11,5 +11,12 @@ export PYTHONPATH="$DIR/libs"
 # Wayland's security model restricts absolute positioning which the widget needs.
 export QT_QPA_PLATFORM=xcb
 
+# Use virtual environment if it exists
+if [ -f "$DIR/venv/bin/python3" ]; then
+    PYTHON_EXEC="$DIR/venv/bin/python3"
+else
+    PYTHON_EXEC="python3"
+fi
+
 # Launch the app
-python3 "$DIR/main.py"
+$PYTHON_EXEC "$DIR/main.py"
