@@ -1,1 +1,6 @@
 {"timestamp": "Tue Apr 14 11:33:29 2026", "task": "study", "duration": 1, "distractions": 0}
+{"timestamp": "Tue Apr 14 12:01:10 2026", "task": "test", "duration": 1, "distractions": 0}
+{"timestamp": "Tue Apr 14 12:04:20 2026", "task": "test", "duration": 1, "distractions": 0}
+{"timestamp": "Tue Apr 14 12:39:35 2026", "task": "", "duration": 25, "distractions": 0}
+{"timestamp": "Tue Apr 14 12:48:40 2026", "task": "", "duration_set_min": 1, "studied_for": "00:00:07", "distractions": 0}
+{"timestamp": "Tue Apr 14 12:59:56 2026", "task": "", "duration_set_min": 1, "studied_for": "00:00:08", "distractions": 0}
