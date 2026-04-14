@@ -34,7 +34,7 @@ class GnomeLock:
             self.keys_to_lock.append(("org.gnome.desktop.wm.keybindings", f"switch-to-workspace-{i}"))
             self.keys_to_lock.append(("org.gnome.desktop.wm.keybindings", f"move-to-workspace-{i}"))
 
-        self.backup_file = os.path.expanduser("~/Desktop/Locky/keybindings_backup.json")
+        self.backup_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keybindings_backup.json")
 
     def get_setting(self, schema, key):
         try:
