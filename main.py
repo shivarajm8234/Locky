@@ -4,6 +4,7 @@ import time
 import psutil
 import json
 import subprocess
+import socket
 from typing import Optional
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
                              QLabel, QPushButton, QLineEdit, QFrame,
@@ -829,6 +830,16 @@ if __name__ == "__main__":
         os.environ["QT_QPA_PLATFORM"] = "xcb"
     elif not os.environ.get("QT_QPA_PLATFORM"):
         os.environ["QT_QPA_PLATFORM"] = "wayland"
+
+    # Single instance check
+    try:
+        # Use an abstract socket to prevent multiple instances
+        lock_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        # The leading prefix \0 makes it an abstract socket (Linux only)
+        lock_socket.bind('\0locky_focus_widget_lock')
+    except socket.error:
+        print("Locky is already running. Exiting.")
+        sys.exit(0)
 
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)   # keep alive when main window hides
