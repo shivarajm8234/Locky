@@ -309,6 +309,9 @@ class LockyWidget(QWidget):
         self.distraction_count = 0
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_timer)
+        
+        # Ensure system is unlocked on startup (in case of a previous crash)
+        self.gnome_lock.unlock()
 
         self.whitelist = ['code', 'firefox', 'chrome', 'evince', 'vlc', 'Locky', 'python3', 'bash']
 
